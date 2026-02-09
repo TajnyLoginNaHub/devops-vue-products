@@ -14,7 +14,16 @@
   <body>
     <div id="app">
       <h1>Products</h1>
+		<p class="muted">
+		Version: <b id="app-version">__APP_VERSION__</b>
+		</p>
+		
       <p class="muted">Publikacja: GitHub Pages • Vue (CDN)</p>
+
+		<div class="card">
+		<b>Status:</b> Deployed via GitHub Pages ✅
+		</div>
+
 
       <button @click="load" :disabled="loading">
         {{ loading ? "Loading..." : "Reload products" }}

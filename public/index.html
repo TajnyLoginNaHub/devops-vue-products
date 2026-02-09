@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevOps Vue Products</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+      .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin: 8px 0; }
+      .muted { color: #666; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Products</h1>
+      <p class="muted">Frontend: Vue (CDN) • Backend: Express</p>
+
+      <button @click="load" :disabled="loading">
+        {{ loading ? "Loading..." : "Reload products" }}
+      </button>
+
+      <div v-if="error" class="card">
+        <b>Error:</b> {{ error }}
+      </div>
+
+      <div v-for="p in products" :key="p.id" class="card">
+        <div><b>{{ p.name }}</b></div>
+        <div>{{ p.price }} PLN</div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            products: [],
+            loading: false,
+            error: ""
+          };
+        },
+        mounted() {
+          this.load();
+        },
+        methods: {
+          async load() {
+            this.loading = true;
+            this.error = "";
+            try {
+              const res = await fetch("/products");
+              if (!res.ok) throw new Error("HTTP " + res.status);
+              this.products = await res.json();
+            } catch (e) {
+              this.error = e.message || String(e);
+            } finally {
+              this.loading = false;
+            }
+          }
+        }
+      }).mount("#app");
+    </script>
+  </body>
+</html>

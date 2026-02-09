@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,7 +25,12 @@ app.get("/products", (req, res) => {
   ]);
 });
 
-// Start
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+export default app;
+
+// Start tylko gdy uruchamiasz plik bezpośrednio (a nie importujesz w testach)
+const isDirectRun = import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isDirectRun) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}

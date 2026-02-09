@@ -1,5 +1,6 @@
 [
   { "id": 1, "name": "Keyboard", "price": 199 },
   { "id": 2, "name": "Mouse", "price": 99 },
-  { "id": 3, "name": "Monitor", "price": 899 }
+  { "id": 3, "name": "Monitor", "price": 899 },
+  { "id": 3, "name": "Headphones", "price": 543 }
 ]

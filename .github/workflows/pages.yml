@@ -24,8 +24,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Inject app version into HTML
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "Version: $VERSION"
+          sed -i "s/__APP_VERSION__/$VERSION/g" frontend/index.html
 
       - name: Upload artifact (frontend)
         uses: actions/upload-pages-artifact@v3
